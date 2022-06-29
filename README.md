@@ -19,6 +19,8 @@ All "options" for this analysis are specified in one object called `args`. Every
 
 ### Data Prep
 This section of [`Main.R`](https://github.com/Hanna-Jackson/bumble-bee-climate/blob/main/Main.R) sources $10$ files that go through each step of the data processing (you can find those files in the [data_prep](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep) folder. When you source a file all it does is load in the function that that specific file has in it. Then all we have to do is call that function with the arguments (from the `args` object) we want and all the code runs, doing one step in our data processing. At the end of each file the important objects get saved to your working directory and then when a different function needs that file it just loads it!
+<br>
+RData objects containing the spatial object of all the sites are given already in the [data_prep/sites](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep/sites) folder (But you can also make them yourself if you want to in the data prep workflow). 
 
 #### Data Download
 You will need to download the bumble bee data from the [Data Dryad repository](https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.c59zw3r8f) as well as all the climate data from the [CHELSAcruts database](https://chelsa-climate.org/chelsacruts/). This data should go in the [data_prep/data](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep/data) folder to make the code I have written work with it.
@@ -28,7 +30,7 @@ If you don't want to do that (the climate files are very large and there is many
 Floral resource data is already available in the [data_prep/data](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep/data) folder. 
 
 ### Model Runs
-To run the model we first source a file [`11.Prep_For_Run_JAGS.R`](https://github.com/Hanna-Jackson/bumble-bee-climate/blob/main/data_prep/11.Prep_For_Run_JAGS.R) that loads the packages and data that we need to run our model, scales the data and packages it into list called `my.data` that JAGS will use. 
+To run the model we first source a file [`11.Prep_For_Run_JAGS.R`](https://github.com/Hanna-Jackson/bumble-bee-climate/blob/main/data_prep/11.Prep_For_Run_JAGS.R) that loads the packages and data (from the [data_prep/saved/for_analysis](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep/saved/for_analysis) file) that we need to run our model, scales the data and packages it into list called `my.data` that JAGS will use. 
 <br>
 Next we source the model file (which model file is specified in `args` by `args$model`). The models themselves are stored in the [models](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/models) folder. 
 
