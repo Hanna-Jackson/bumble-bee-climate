@@ -8,6 +8,8 @@ Any feedback on the code and analysis is appreciated.
 If you have issues, feel free to email me at `hmj2@sfu.ca` and I can try to help! 
 <br>
 Good luck!
+<br>
+- Hanna Jackson
 
 ## Using `Main.R` 
 [`Main.R`](https://github.com/Hanna-Jackson/bumble-bee-climate/blob/main/Main.R) contains everything needed to load and prepare the data and run the analysis. 
