@@ -1,18 +1,26 @@
 
+## This model has the same structure as both era_model.R and env_model.R,
+## the only difference is that is includes the predictors from both of
+## them. So occupancy is a function of era, temperature, precipitation
+## and floral resources 
+
+## NOTE: Please see era_model.R and env_model.R for detailed comments
+## describing what each section of code does
+
 my.model <- function() {
-  ## PRIORS
-  psi.0              ~ dnorm(0,0.001) # prior for the intercept 
-  psi.sitearea       ~ dnorm(0,0.001) # prior for fixed effect of site area
-  p.0                ~ dnorm(0,0.001) #each spp gets same detection - no modification 
+ ## ~~~~~~~~~~~~~~ Priors ~~~~~~~~~~~~~~~
+  psi.0              ~ dnorm(0,0.001)
+  psi.sitearea       ~ dnorm(0,0.001) 
+  p.0                ~ dnorm(0,0.001) 
   
-  ## Random effect of species on occupancy
+  ## ~~~ Random effect of species on occupancy intercept ~~~
   sigma.psi.sp       ~ dunif(0,10)
   tau.psi.sp         <- 1/(sigma.psi.sp*sigma.psi.sp)
-  for(species in 1:nspecies) { #for loop that creates a psi.sp for each species 
+  for(species in 1:nspecies) {  
     psi.sp[species] ~ dnorm(0, tau.psi.sp) 
   } 
   
-  ## Random effect of site on  detection probability
+  ## ~~~ Random intercept for each site-era's detection probability ~~~
   sigma.p.site         ~ dunif(0,10)
   tau.p.site           <- 1/(sigma.p.site*sigma.p.site)
   for(site in 1:nsite){
@@ -21,7 +29,7 @@ my.model <- function() {
     }
   } 
   
-  ## Random slopes for the effect of meanmaxt for each species
+  ## ~~~ Random slopes for the effect of temperature on each species'occupancy ~~~
   mu.psi.meanmaxt ~ dnorm(0,0.001)
   sigma.psi.meanmaxt ~ dunif(0,100)
   tau.psi.meanmaxt <- 1/(sigma.psi.meanmaxt*sigma.psi.meanmaxt)
@@ -29,10 +37,10 @@ my.model <- function() {
     psi.meanmaxt[species] ~ dnorm(mu.psi.meanmaxt, tau.psi.meanmaxt)
   }
 
-  ## ALL species meanmaxt.sq parameter 
+  ## ~~~ ALL species meanmaxt.sq parameter ~~~
   psi.meanmaxt.sq ~  dnorm(0,0.001)  
 
-  ## Random slopes for the effect of  meanprec for each species
+  ## ~~~ Random slopes for the effect of precipitation on each species' occupancy ~~~
   mu.psi.meanprec           ~ dnorm(0,0.001)
   sigma.psi.meanprec        ~ dunif(0,10)
   tau.psi.meanprec          <- 1/(sigma.psi.meanprec *sigma.psi.meanprec )
@@ -40,7 +48,7 @@ my.model <- function() {
     psi.meanprec[species] ~ dnorm(mu.psi.meanprec, tau.psi.meanprec ) 
   }
 
-  ## Random slopes for the effect of floral resources for each species
+  ## ~~~ Random slopes for the effect of floral resources on each species' occupancy ~~~
   mu.psi.floral         ~ dnorm(0,0.001)
   sigma.psi.floral      ~ dunif(0,10)
   tau.psi.floral         <- 1/(sigma.psi.floral *sigma.psi.floral )
@@ -48,7 +56,7 @@ my.model <- function() {
     psi.floral[species] ~ dnorm(mu.psi.floral, tau.psi.floral ) 
   } 
 
-  ## Random slopes for the effect of era for each species
+  ## ~~~ Random slopes for the effect of era on each species' occupancy ~~~
   mu.psi.era           ~ dnorm(0,0.001)
   sigma.psi.era        ~ dunif(0,10)
   tau.psi.era           <- 1/(sigma.psi.era *sigma.psi.era )
@@ -57,17 +65,17 @@ my.model <- function() {
   } 
 
   
-  ## Model for Occupancy and detection (mean + spp-specific effect)
+  ## ~~~~~~~~~~~~~~ Model ~~~~~~~~~~~~~~~
   for(site in 1:nsite) {
     for(species in 1:nspecies){
       for(era in 1:nera){ 
-        logit(psi[site, era, species]) <- psi.0           +
-          psi.sp[species]                                 +
-          psi.era[species]        * era                   + 
-          psi.meanmaxt[species]   * meanmaxt[site, era]   +
-          psi.meanmaxt.sq         * meanmaxt[site,era]^2  +                                       
-          psi.meanprec[species]   * meanprec[site, era]   +
-          psi.floral[species]     * floral[site,era]      +
+        logit(psi[site, era, species]) <- psi.0          +
+          psi.sp[species]                                +
+          psi.era[species]        * era                  + 
+          psi.meanmaxt[species]   * meanmaxt[site,era]   +
+          psi.meanmaxt.sq         * meanmaxt[site,era]^2 +                                       
+          psi.meanprec[species]   * meanprec[site,era]   +
+          psi.floral[species]     * floral[site,era]     +
           psi.sitearea            * sitearea[site]      
         
         for(visit in 1:nvisit){
@@ -78,12 +86,12 @@ my.model <- function() {
       } 
     } 
   } 
+
   
-  ## LIKELIHOOD
+ ## ~~~~~~~~~~~~~~ Likelihood ~~~~~~~~~~~~~~~
   for(site in 1:nsite) {
     for(era in 1:nera) {
       for(species in 1:nspecies){
-        ## Occurrence 
         Z[site, era, species] ~ dbern(psi[site, era, species]) 
       } 
     }
@@ -94,9 +102,10 @@ my.model <- function() {
   } 
   
   
-}#model 
+} ## End of my.model 
 
-## parameters to track
+
+## ~~~~~~~~~~~~~~ Parameters to Track  ~~~~~~~~~~~~~~~
 my.params <- c('psi.0', 
                
                'psi.sp',
