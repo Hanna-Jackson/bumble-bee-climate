@@ -27,7 +27,7 @@ RData objects containing the spatial object of all the sites are given already i
 #### Data Download
 You will need to download the **bumble bee data** from the [Data Dryad repository](https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.c59zw3r8f) as well as all the **climate data** from the [CHELSAcruts database](https://chelsa-climate.org/chelsacruts/). This data should go in the [data_prep/data](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep/data) folder to make the code I have written work with it.
 
-If you don't want to do that (the climate files are very large and there is many of them, so automating the download process is basically required), you can skip this section and move right on to model running and instead load the pre-processed data that I provide in the correct directory. 
+If you don't want to do that (the climate files are very large and there is many of them, so automating the download process is basically required), you can skip this section and move right on to model running and instead load the pre-processed data that I provide in the correct directory. The only issue that arises with that method is that the files for the 50x50km and 100x100km site resolutions are too large to be uploaded, so only 250x250km is avaliable. 
 
 **Floral resource data** is already available in the [data_prep/data](https://github.com/Hanna-Jackson/bumble-bee-climate/tree/main/data_prep/data) folder. 
 
