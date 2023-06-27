@@ -1,4 +1,5 @@
 # Bumble Bee Climate Instruction Manual
+![BC_Bombus occidentalis male_Goldenrod](https://github.com/Hanna-Jackson/bumble-bee-climate/assets/71409828/988e7d0b-cf03-4afc-a4e3-a34cb0fe88c0)
 
 Welcome to the code repository for Jackson et al 2022: ["Climate change winners and losers among North American bumblebees"](https://royalsocietypublishing.org/doi/10.1098/rsbl.2021.0551)
 
